@@ -1,7 +1,12 @@
 ---
-import { getPosts } from '../lib/api';
-const posts = await getPosts();
-console.log(posts);
+import { api } from '../lib/api';
+const posts = await api.posts
+    .browse({
+        limit: 'all',
+    })
+    .catch((err) => {
+        console.error(err);
+    });
 ---
 
 <html lang="en">
@@ -13,6 +18,23 @@ console.log(posts);
         <title>Astro</title>
     </head>
     <body>
-        <h1>Astro</h1>
+        <h1>Astro + Ghost 👻</h1>
+
+        {
+            posts.map((post) => (
+                <>
+                    <img src={post.feature_image} alt={post.title} />
+                    <a href={`/post/${post.slug}`}>
+                        <h1> {post.title} </h1>
+                    </a>
+                </>
+            ))
+        }
     </body>
 </html>
+
+<style is:global>
+    img {
+        width: 100%;
+    }
+</style>

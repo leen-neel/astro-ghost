@@ -16,3 +16,11 @@ export async function getPosts() {
             console.error(err);
         });
 }
+
+export async function getPost(slug) {
+    return await api.posts.browse({
+        filter: `slug:${slug}`,
+    });
+}
+
+export { api };
